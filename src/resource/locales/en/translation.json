@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "question": "Asking how you're doing?",
+    "hint": "You can change the settings later."
+  },
+  "energy": {
+    "title": "Energy level"
+  },
+  "emotions": {
+    "title": "I feel",
+    "error": "Something went wrong"
+  },
+  "buttons": {
+    "getReport": "Get a report",
+    "notificationSettings": "Change notification settings"
+  },
+  "timePicker": {
+    "title": "Select time"
+  }
+}
