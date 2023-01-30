@@ -7,8 +7,7 @@ export type NestedEmotions = {
   }[];
 }[];
 
-export enum EmotionReducerType {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
+export enum PATHS {
+  root = '/',
+  settings = 'settings/',
 }

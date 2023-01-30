@@ -14,6 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { DEFAULT_REMINDERS } from '../../resource/constants';
+import { PATHS } from '../../types';
 
 const Settings = () => {
   const [switchOn, setSwitchOn] = useState<boolean>(true);
@@ -24,7 +25,7 @@ const Settings = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleExit = () => navigate('/');
+  const handleExit = () => navigate(PATHS.root);
 
   useEffect(() => {
     setOpen(true);

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, Outlet } from 'react-router-dom';
 import MoodPicker from './layouts/MoodPicker';
 import './App.css';
+import { PATHS } from './types';
 
 const App = () => {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ const App = () => {
           <ReportButton />
           <Button
             component={Link}
-            to='settings'
+            to={PATHS.settings}
           >{t`buttons:notificationSettings`}</Button>
         </Box>
       </Stack>
