@@ -10,20 +10,22 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import i18n from './i18n';
+import { init } from './i18n';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { routes } from './routes';
+import dayjs from 'dayjs';
+import { language_code } from './telegram';
 
 Telegram.WebApp.ready();
+
+const language = init(language_code).resolvedLanguage;
+dayjs.locale(language);
 
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('emd-root') as HTMLElement).render(
   <React.StrictMode>
-    <LocalizationProvider
-      dateAdapter={AdapterDayjs}
-      adapterLocale={i18n.language}
-    >
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <RouterProvider router={router} />

@@ -35,6 +35,7 @@ const Emotionlist = ({
           item
         >
           <ToggleButton
+            disableRipple
             value={label}
             selected={selected === label}
             onClick={() => onClick(label)}

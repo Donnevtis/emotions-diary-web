@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -12,10 +12,6 @@ import { recordToNested } from '../../utils/utils';
 import i18n from '../../i18n';
 import './Emotions.css';
 
-const emotionsModule = import(
-  `../../resource/emotions.${i18n.resolvedLanguage}.ts`
-);
-
 const a11yProps = (index: number) => ({
   id: `simple-tab-${index}`,
   'aria-controls': `simple-tabpanel-${index}`,
@@ -27,6 +23,11 @@ type EmotionProps = {
 };
 
 const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
+  const emotionsModule = useMemo(
+    () => import(`../../resource/emotions.${i18n.resolvedLanguage}.ts`),
+    []
+  );
+
   const [selectedColumn, setSelectedColumn] = useState<number>(0);
   const [emotions, setEmotions] = useState<null | NestedEmotions>(null);
   const [hasError, setHasError] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
     emotionsModule
       .then(({ EMOTIONS }) => setEmotions(recordToNested(EMOTIONS)))
       .catch(() => setHasError(true));
-  }, [setHasError]);
+  }, [setHasError, emotionsModule]);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) =>
     setSelectedColumn(newValue);
@@ -61,6 +62,7 @@ const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
           >
             {emotions.map(({ label }, index) => (
               <Tab
+                disableRipple
                 key={label}
                 label={label}
                 {...a11yProps(index)}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import dayjs, { Dayjs } from 'dayjs';
-import { useTg } from '../../../hooks/useTg';
+import tg from '../../../telegram';
 import { TIME_FORMAT } from '../../../resource/constants';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,8 +19,9 @@ type TimePickerListItemProps = {
   disTime?: string[];
 };
 
+const { expand } = tg;
+
 const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
-  const { expand } = useTg();
   const [value, setValue] = useState<Dayjs | null>(dayjs(defTime, TIME_FORMAT));
   const [isChecked, setIsChecked] = useState<boolean>(true);
 
