@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,8 +11,12 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import i18n from './i18n';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { routes } from './routes';
 
 Telegram.WebApp.ready();
+
+const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('emd-root') as HTMLElement).render(
   <React.StrictMode>
@@ -23,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('emd-root') as HTMLElement).render(
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <RouterProvider router={router} />
       </ThemeProvider>
     </LocalizationProvider>
   </React.StrictMode>

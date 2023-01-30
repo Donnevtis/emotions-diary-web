@@ -8,7 +8,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Alert from '@mui/material/Alert';
 import { useTranslation } from 'react-i18next';
 import { NestedEmotions } from '../../types';
-import { recordToNested } from '../../utlis/utils';
+import { recordToNested } from '../../utils/utils';
 import i18n from '../../i18n';
 import './Emotions.css';
 
@@ -35,7 +35,7 @@ const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
     emotionsModule
       .then(({ EMOTIONS }) => setEmotions(recordToNested(EMOTIONS)))
       .catch(() => setHasError(true));
-  }, [emotionsModule, setHasError]);
+  }, [setHasError]);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) =>
     setSelectedColumn(newValue);
@@ -47,11 +47,11 @@ const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
   const { t } = useTranslation();
 
   return hasError ? (
-    <Alert severity='error'>{t('emotions:error')}</Alert>
+    <Alert severity='error'>{t`emotions:error`}</Alert>
   ) : (
     <>
       <Box>
-        <Typography variant='h6'>{t('emotions:title')}</Typography>
+        <Typography variant='h6'>{t`emotions:title`}</Typography>
         {emotions ? (
           <Tabs
             centered

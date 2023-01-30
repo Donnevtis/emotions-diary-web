@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Settings from './components/Settings/Settings';
 import EnergySlider from './components/EnergySlider/EnergySlider';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -11,16 +10,14 @@ import { DEFAULT_ENERGY } from './resource/constants';
 import './App.css';
 import Emotions from './components/Emotions/Emotions';
 import { useTranslation } from 'react-i18next';
+import { Link, Outlet } from 'react-router-dom';
 
 const {
   MainButton: { show, hide, isVisible, setParams, onClick, offClick },
   sendData,
 } = Telegram.WebApp;
 
-setParams({ text: 'Отправить' });
-
 const App = () => {
-  const [IsSettingsOpen, setIsSettingsOpen] = useState<boolean>(true);
   const [energy, setEnergy] = useState<number>(DEFAULT_ENERGY);
   const [emotion, setEmotion] = useState<string>('');
 
@@ -50,17 +47,22 @@ const App = () => {
 
   const { t } = useTranslation();
 
+  useEffect(() => {
+    setParams({ text: t`webView:sendButton` || 'OK' });
+  }, [t]);
+
   return (
     <Container fixed>
+      <Outlet />
       <Stack justifyContent='space-around' sx={{ gap: '1.3rem' }}>
-        {IsSettingsOpen && <Settings />}
         <EnergySlider onChange={setEnergy} />
         <Emotions onSelect={setEmotion} selectedEmotion={emotion} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <ReportButton />
-          <Button onClick={() => setIsSettingsOpen((open) => !open)}>
-            {t('buttons:notificationSettings')}
-          </Button>
+          <Button
+            component={Link}
+            to='settings'
+          >{t`buttons:notificationSettings`}</Button>
         </Box>
       </Stack>
     </Container>

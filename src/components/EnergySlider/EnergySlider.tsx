@@ -24,7 +24,7 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
   return (
     <Box className='energy'>
       <Typography variant='h6' className='energy__hint'>
-        {t('energy:title')}
+        {t`energy:title`}
       </Typography>
       <Slider defaultValue={DEFAULT_ENERGY} onChangeCommitted={handleChange} />
     </Box>

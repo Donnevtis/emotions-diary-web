@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+
 import dayjs, { Dayjs } from 'dayjs';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import Switch from '@mui/material/Switch';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import { useTg } from '../../../hooks/useTg';
 import { TIME_FORMAT } from '../../../resource/constants';
-import Divider from '@mui/material/Divider';
 import { useTranslation } from 'react-i18next';
+import {
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Switch,
+} from '@mui/material';
+import { MobileTimePicker } from '@mui/x-date-pickers';
+import { CircleNotifications } from '@mui/icons-material';
 
 type TimePickerListItemProps = {
   defTime: string;
@@ -36,7 +39,7 @@ const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
 
   return (
     <MobileTimePicker
-      toolbarTitle={t('timePicker:title')}
+      toolbarTitle={t`timePicker:title`}
       value={value}
       onChange={handleChange}
       onOpen={handleOpen}
@@ -47,7 +50,7 @@ const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
           <ListItem>
             <ListItemButton onClick={onClick}>
               <ListItemIcon>
-                <CircleNotificationsIcon
+                <CircleNotifications
                   color={isChecked ? 'primary' : 'disabled'}
                 />
               </ListItemIcon>

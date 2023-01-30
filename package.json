@@ -7,12 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "postbuild": "surge dist skin.surge.sh",
-    "lint": "eslint"
+    "predeploy": "npm run build",
+    "deploy": "surge dist skin.surge.sh",
+    "lint": "eslint --cache src/**/*.tsx src/**/*.ts",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
     "@fontsource/roboto": "4.5.8",
     "@mui/icons-material": "5.11.0",
     "@mui/material": "5.11.6",
@@ -21,7 +21,8 @@
     "i18next": "22.4.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-i18next": "12.1.4"
+    "react-i18next": "12.1.4",
+    "react-router-dom": "6.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

@@ -16,5 +16,13 @@
   },
   "timePicker": {
     "title": "Select time"
+  },
+  "webView": {
+    "sendButton": "Send"
+  },
+  "errors": {
+    "oops": "Oops!",
+    "sorry": "Sorry, an unexpected error has occurred.",
+    "notFound": "Not Found"
   }
 }
