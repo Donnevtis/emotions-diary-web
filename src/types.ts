@@ -11,3 +11,9 @@ export enum PATHS {
   root = '/',
   settings = 'settings/',
 }
+
+export type UserTimerSettings = {
+  reminder_timers: Array<string>;
+  time_offset: number;
+  notify: boolean;
+};
