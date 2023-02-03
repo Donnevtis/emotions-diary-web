@@ -5,25 +5,24 @@ import tg from '../../../telegram';
 import { TIME_FORMAT } from '../../../resource/constants';
 import { useTranslation } from 'react-i18next';
 import {
+  Button,
   Divider,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  Switch,
 } from '@mui/material';
 import { MobileTimePicker } from '@mui/x-date-pickers';
-import { CircleNotifications } from '@mui/icons-material';
-
-type TimePickerListItemProps = {
-  defTime: string;
-  disTime?: string[];
-};
+import { CircleNotifications, DeleteForever } from '@mui/icons-material';
+import { TimePickerListItemProps, ActionType } from '../Settings.types';
 
 const { expand } = tg;
 
-const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
-  const [value, setValue] = useState<Dayjs | null>(dayjs(defTime, TIME_FORMAT));
-  const [isChecked, setIsChecked] = useState<boolean>(true);
+const TimePickerListItem = ({
+  timer = '12:00',
+  index,
+  dispatchTimers,
+}: TimePickerListItemProps) => {
+  const [value, setValue] = useState<Dayjs | null>(dayjs(timer, TIME_FORMAT));
 
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
@@ -31,10 +30,17 @@ const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
 
   const handleOpen = () => {
     expand();
-    setIsChecked(true);
   };
 
-  const handleSwitch = () => setIsChecked(!isChecked);
+  const handleClose = () => {
+    dispatchTimers({
+      type: ActionType.edit,
+      payload: { index, timer: dayjs(value).format(TIME_FORMAT) },
+    });
+  };
+
+  const HandleDelete = () =>
+    dispatchTimers({ type: ActionType.delete, payload: index });
 
   const { t } = useTranslation();
 
@@ -44,6 +50,7 @@ const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
       value={value}
       onChange={handleChange}
       onOpen={handleOpen}
+      onClose={handleClose}
       minutesStep={15}
       renderInput={({ onClick, inputProps }) => (
         <>
@@ -51,13 +58,13 @@ const TimePickerListItem = ({ defTime = '12:00' }: TimePickerListItemProps) => {
           <ListItem>
             <ListItemButton onClick={onClick}>
               <ListItemIcon>
-                <CircleNotifications
-                  color={isChecked ? 'primary' : 'disabled'}
-                />
+                <CircleNotifications color='primary' />
               </ListItemIcon>
               {inputProps?.value}
             </ListItemButton>
-            <Switch edge='end' checked={isChecked} onClick={handleSwitch} />
+            <Button onClick={HandleDelete}>
+              <DeleteForever />
+            </Button>
           </ListItem>
         </>
       )}

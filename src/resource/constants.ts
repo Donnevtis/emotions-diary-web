@@ -32,6 +32,6 @@ export const WHITE_TG_THEME: TgTheme = {
 
 export const TIME_FORMAT = 'HH:mm';
 
-export const DEFAULT_REMINDERS = ['09:00', '13:00', '20:00'];
+export const DEFAULT_REMINDERS = [];
 
 export const DEFAULT_ENERGY = 50;

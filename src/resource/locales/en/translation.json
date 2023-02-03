@@ -23,6 +23,11 @@
   "errors": {
     "oops": "Oops!",
     "sorry": "Sorry, an unexpected error has occurred.",
-    "notFound": "Not Found"
+    "notFound": "Not Found",
+    "errorOccurred": "Error occurred",
+    "tryLater": "Please try again later"
+  },
+  "common": {
+    "close": "Close"
   }
 }
