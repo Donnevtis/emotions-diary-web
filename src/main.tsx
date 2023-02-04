@@ -24,12 +24,10 @@ dayjs.locale(language);
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('emd-root') as HTMLElement).render(
-  <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </LocalizationProvider>
-  </React.StrictMode>
+  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  </LocalizationProvider>
 );
