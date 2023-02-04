@@ -17,3 +17,9 @@ export type UserTimerSettings = {
   time_offset: number;
   notify: boolean;
 };
+
+export type UserState = {
+  emotion: string;
+  energy: number;
+  timestamp: string;
+};

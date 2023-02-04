@@ -81,8 +81,12 @@ const Settings = () => {
     });
   };
 
-  const handleClose = async () => {
-    updateSettings({ reminder_timers: timers, notify: switchOn })
+  const handleClose = () => {
+    updateSettings({
+      reminder_timers: timers,
+      notify: switchOn,
+      time_offset: new Date(Date.now()).getTimezoneOffset(),
+    })
       .then(() => {
         setOpen(false);
       })

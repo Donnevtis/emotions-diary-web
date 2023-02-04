@@ -14,7 +14,7 @@ export const recordToNested = (array: Record<string, string[]>) =>
   }));
 
 // eslint-disable-next-line no-console
-export const printError = (error: unknown) => console.error(error);
+export const printError = (...error: unknown[]) => console.error(...error);
 
 export const deleteItemFromArray = <T>(array: T[], index: number): T[] => [
   ...array.slice(0, index),
@@ -30,3 +30,6 @@ export const updateArrayItem = <T>(
     newItem,
     ...array.slice(index, array.length - 1),
   ];
+
+export const queryParam = (query: string) =>
+  new URLSearchParams(window.location.search).get(query);
