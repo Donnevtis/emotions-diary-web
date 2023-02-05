@@ -1,6 +1,6 @@
-import { DARK_TG_THEME } from '../resource/constants';
+import { DARK_TG_THEME } from '../resource/constants'
 
-const tg = Telegram.WebApp;
+const tg = Telegram.WebApp
 const {
   headerColor,
   backgroundColor,
@@ -13,7 +13,7 @@ const {
     link_color,
     secondary_bg_color,
   },
-} = tg;
+} = tg
 
 export const useTgTheme = () =>
   import.meta.env.PROD
@@ -28,4 +28,4 @@ export const useTgTheme = () =>
       link_color,
       secondary_bg_color,
     }
-    : DARK_TG_THEME;
+    : DARK_TG_THEME

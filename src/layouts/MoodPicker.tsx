@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Emotions from '../components/Emotions/Emotions';
-import EnergySlider from '../components/EnergySlider/EnergySlider';
-import { DEFAULT_ENERGY } from '../resource/constants';
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import Emotions from '../components/Emotions/Emotions'
+import EnergySlider from '../components/EnergySlider/EnergySlider'
+import { DEFAULT_ENERGY } from '../resource/constants'
 
 const {
   MainButton: { show, hide, isVisible, setParams, onClick, offClick },
   sendData,
-} = Telegram.WebApp;
+} = Telegram.WebApp
 
 const MoodPicker = () => {
-  const [energy, setEnergy] = useState<number>(DEFAULT_ENERGY);
-  const [emotion, setEmotion] = useState<string>('');
+  const [energy, setEnergy] = useState<number>(DEFAULT_ENERGY)
+  const [emotion, setEmotion] = useState<string>('')
 
   useEffect(() => {
     if (emotion && !isVisible) {
-      show();
+      show()
     } else {
-      hide();
+      hide()
     }
-  }, [emotion]);
+  }, [emotion])
 
   useEffect(() => {
     const data = {
@@ -27,28 +27,28 @@ const MoodPicker = () => {
       energy,
       timestamp: Date.now(),
       time_zone_offset: new Date().getTimezoneOffset(),
-    };
-    const sendDataCallback = () => sendData(JSON.stringify(data));
+    }
+    const sendDataCallback = () => sendData(JSON.stringify(data))
 
-    onClick(sendDataCallback);
+    onClick(sendDataCallback)
 
     return () => {
-      offClick(sendDataCallback);
-    };
-  }, [emotion, energy]);
+      offClick(sendDataCallback)
+    }
+  }, [emotion, energy])
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   useEffect(() => {
-    setParams({ text: t`webView:sendButton` || 'OK' });
-  }, [t]);
+    setParams({ text: t`webView:sendButton` || 'OK' })
+  }, [t])
 
   return (
     <>
       <EnergySlider onChange={setEnergy} />
       <Emotions onSelect={setEmotion} selectedEmotion={emotion} />
     </>
-  );
-};
+  )
+}
 
-export default MoodPicker;
+export default MoodPicker

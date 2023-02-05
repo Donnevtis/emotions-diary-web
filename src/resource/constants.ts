@@ -15,7 +15,7 @@ export const DARK_TG_THEME: TgTheme = {
   link_color: '#69cf6c',
   secondary_bg_color: '#313b43',
   text_color: '#f5f5f5',
-};
+}
 
 export const WHITE_TG_THEME: TgTheme = {
   colorScheme: 'light',
@@ -28,10 +28,10 @@ export const WHITE_TG_THEME: TgTheme = {
   link_color: '#168acd',
   secondary_bg_color: '#f1f1f1',
   text_color: '#000000',
-};
+}
 
-export const TIME_FORMAT = 'HH:mm';
+export const TIME_FORMAT = 'HH:mm'
 
-export const DEFAULT_REMINDERS = [];
+export const DEFAULT_REMINDERS = []
 
-export const DEFAULT_ENERGY = 50;
+export const DEFAULT_ENERGY = 50

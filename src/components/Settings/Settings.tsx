@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
-import TimePickerListItem from './TimePickerListItem/TimePickerListItem';
+import React, { useEffect, useReducer, useRef, useState } from 'react'
+import TimePickerListItem from './TimePickerListItem/TimePickerListItem'
 import {
   Stack,
   List,
@@ -14,72 +14,72 @@ import {
   Fab,
   CircularProgress,
   AlertTitle,
-} from '@mui/material';
-import { Add } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { DEFAULT_REMINDERS, TIME_FORMAT } from '../../resource/constants';
-import { PATHS } from '../../types';
-import { getSettings, updateSettings } from '../../api/api';
-import { printError } from '../../utils/utils';
-import dayjs, { Dayjs } from 'dayjs';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
-import tg from '../../telegram';
-import timersReducer from './Settings.reducer';
-import { ActionType } from './Settings.types';
+} from '@mui/material'
+import { Add } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { DEFAULT_REMINDERS, TIME_FORMAT } from '../../resource/constants'
+import { PATHS } from '../../types'
+import { getSettings, updateSettings } from '../../api/api'
+import { printError } from '../../utils/utils'
+import dayjs, { Dayjs } from 'dayjs'
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
+import tg from '../../telegram'
+import timersReducer from './Settings.reducer'
+import { ActionType } from './Settings.types'
 
-const { expand } = tg;
+const { expand } = tg
 
 const Settings = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [open, setOpen] = useState<boolean>(false);
-  const [switchOn, setSwitchOn] = useState<boolean>(false);
-  const [hasError, setError] = useState<boolean>(false);
-  const [timers, dispatchTimers] = useReducer(timersReducer, DEFAULT_REMINDERS);
+  const [loading, setLoading] = useState<boolean>(true)
+  const [open, setOpen] = useState<boolean>(false)
+  const [switchOn, setSwitchOn] = useState<boolean>(false)
+  const [hasError, setError] = useState<boolean>(false)
+  const [timers, dispatchTimers] = useReducer(timersReducer, DEFAULT_REMINDERS)
   const [timeValue, setTimeValue] = useState<Dayjs | null>(
     dayjs('12:00', TIME_FORMAT)
-  );
-  const fabRef = useRef<HTMLDivElement>(null);
+  )
+  const fabRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     getSettings()
       .then(({ notify, reminder_timers }) => {
-        dispatchTimers({ type: ActionType.update, payload: reminder_timers });
-        setSwitchOn(notify);
+        dispatchTimers({ type: ActionType.update, payload: reminder_timers })
+        setSwitchOn(notify)
       })
       .catch((error) => {
-        printError(error);
-        setError(true);
+        printError(error)
+        setError(true)
       })
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => setLoading(false))
+  }, [])
 
   useEffect(() => {
     if (!timers.length) {
-      setSwitchOn(false);
+      setSwitchOn(false)
     }
-  }, [timers]);
-  const navigate = useNavigate();
+  }, [timers])
+  const navigate = useNavigate()
 
   const handleSwitch = () => {
-    setSwitchOn(!switchOn);
+    setSwitchOn(!switchOn)
     if (!timers.length && fabRef.current) {
-      fabRef.current.dispatchEvent(new Event('click', { bubbles: true }));
+      fabRef.current.dispatchEvent(new Event('click', { bubbles: true }))
     }
-  };
+  }
 
-  const handleOpenPicker = () => expand();
+  const handleOpenPicker = () => expand()
 
   const handleChange = (newValue: Dayjs | null) => {
-    setTimeValue(newValue);
-  };
+    setTimeValue(newValue)
+  }
 
   const handleClosePicker = () => {
     dispatchTimers({
       type: ActionType.add,
       payload: dayjs(timeValue).format(TIME_FORMAT),
-    });
-  };
+    })
+  }
 
   const handleClose = () => {
     updateSettings({
@@ -88,21 +88,21 @@ const Settings = () => {
       time_offset: new Date(Date.now()).getTimezoneOffset(),
     })
       .then(() => {
-        setOpen(false);
+        setOpen(false)
       })
       .catch((error) => {
-        setError(true);
-        printError(error);
-      });
-  };
+        setError(true)
+        printError(error)
+      })
+  }
 
-  const handleExit = () => navigate(PATHS.root);
+  const handleExit = () => navigate(PATHS.root)
 
   useEffect(() => {
-    setOpen(true);
-  }, [setOpen]);
+    setOpen(true)
+  }, [setOpen])
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Collapse in={open} onExited={handleExit}>
@@ -176,7 +176,7 @@ const Settings = () => {
         )}
       </Stack>
     </Collapse>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

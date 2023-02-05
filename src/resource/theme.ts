@@ -1,8 +1,8 @@
-import { createTheme } from '@mui/material/styles';
-import { DARK_TG_THEME } from '../resource/constants';
+import { createTheme } from '@mui/material/styles'
+import { DARK_TG_THEME } from '../resource/constants'
 
 const tgTheme = () => {
-  const tg = Telegram.WebApp;
+  const tg = Telegram.WebApp
   const {
     colorScheme,
     headerColor,
@@ -16,7 +16,7 @@ const tgTheme = () => {
       link_color,
       secondary_bg_color,
     },
-  } = tg;
+  } = tg
 
   return import.meta.env.PROD
     ? {
@@ -31,8 +31,8 @@ const tgTheme = () => {
       link_color,
       secondary_bg_color,
     }
-    : DARK_TG_THEME;
-};
+    : DARK_TG_THEME
+}
 
 const {
   colorScheme,
@@ -41,7 +41,7 @@ const {
   button_color,
   backgroundColor,
   text_color,
-} = tgTheme();
+} = tgTheme()
 
 export default createTheme({
   palette: {
@@ -53,4 +53,4 @@ export default createTheme({
     action: { disabled: hint_color, disabledBackground: hint_color },
     mode: colorScheme,
   },
-});
+})

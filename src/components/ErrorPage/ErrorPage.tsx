@@ -1,9 +1,9 @@
-import { Container, Alert, AlertTitle, Stack } from '@mui/material';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Container, Alert, AlertTitle, Stack } from '@mui/material'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const ErrorPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Container>
       <Stack spacing={2}>
@@ -14,7 +14,7 @@ const ErrorPage = () => {
         <Alert severity='info'>{t`errors:notFound`}</Alert>
       </Stack>
     </Container>
-  );
-};
+  )
+}
 
-export default ErrorPage;
+export default ErrorPage

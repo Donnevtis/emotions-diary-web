@@ -67,4 +67,4 @@ export const EMOTIONS = {
     'withdrawn',
     'aversion',
   ],
-};
+}

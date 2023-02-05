@@ -1,2 +1,2 @@
-export { default } from './telegram';
-export * from './telegram';
+export { default } from './telegram'
+export * from './telegram'

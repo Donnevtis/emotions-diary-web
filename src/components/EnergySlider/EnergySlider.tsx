@@ -1,9 +1,9 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
-import Typography from '@mui/material/Typography';
-import { DEFAULT_ENERGY } from '../../resource/constants';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import Box from '@mui/material/Box'
+import Slider from '@mui/material/Slider'
+import Typography from '@mui/material/Typography'
+import { DEFAULT_ENERGY } from '../../resource/constants'
+import { useTranslation } from 'react-i18next'
 
 type EnergySliderProps = {
   onChange: (energy: number) => void;
@@ -15,11 +15,11 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
     value: number | number[]
   ) => {
     if (typeof value === 'number') {
-      onChange(value);
+      onChange(value)
     }
-  };
+  }
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Box className='energy'>
@@ -28,7 +28,7 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
       </Typography>
       <Slider defaultValue={DEFAULT_ENERGY} onChangeCommitted={handleChange} />
     </Box>
-  );
-};
+  )
+}
 
-export default EnergySlider;
+export default EnergySlider

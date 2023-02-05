@@ -1,21 +1,21 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import EmotionList from './EmotionList';
-import Skeleton from '@mui/material/Skeleton';
-import Alert from '@mui/material/Alert';
-import { useTranslation } from 'react-i18next';
-import { NestedEmotions } from '../../types';
-import { recordToNested } from '../../utils/utils';
-import i18n from '../../i18n';
-import './Emotions.css';
+import React, { useEffect, useMemo, useState } from 'react'
+import Box from '@mui/material/Box'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
+import EmotionList from './EmotionList'
+import Skeleton from '@mui/material/Skeleton'
+import Alert from '@mui/material/Alert'
+import { useTranslation } from 'react-i18next'
+import { NestedEmotions } from '../../types'
+import { recordToNested } from '../../utils/utils'
+import i18n from '../../i18n'
+import './Emotions.css'
 
 const a11yProps = (index: number) => ({
   id: `simple-tab-${index}`,
   'aria-controls': `simple-tabpanel-${index}`,
-});
+})
 
 type EmotionProps = {
   onSelect: (emotion: string) => void;
@@ -26,26 +26,26 @@ const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
   const emotionsModule = useMemo(
     () => import(`../../resource/emotions.${i18n.resolvedLanguage}.ts`),
     []
-  );
+  )
 
-  const [selectedColumn, setSelectedColumn] = useState<number>(0);
-  const [emotions, setEmotions] = useState<null | NestedEmotions>(null);
-  const [hasError, setHasError] = useState<boolean>(false);
+  const [selectedColumn, setSelectedColumn] = useState<number>(0)
+  const [emotions, setEmotions] = useState<null | NestedEmotions>(null)
+  const [hasError, setHasError] = useState<boolean>(false)
 
   useEffect(() => {
     emotionsModule
       .then(({ EMOTIONS }) => setEmotions(recordToNested(EMOTIONS)))
-      .catch(() => setHasError(true));
-  }, [setHasError, emotionsModule]);
+      .catch(() => setHasError(true))
+  }, [setHasError, emotionsModule])
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) =>
-    setSelectedColumn(newValue);
+    setSelectedColumn(newValue)
 
   const handleClick = (label: string) => {
-    onSelect(label === selectedEmotion ? '' : label);
-  };
+    onSelect(label === selectedEmotion ? '' : label)
+  }
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return hasError ? (
     <Alert severity='error'>{t`emotions:error`}</Alert>
@@ -91,7 +91,7 @@ const Emotions = ({ onSelect, selectedEmotion }: EmotionProps) => {
         <Skeleton variant='rounded' height={210} />
       )}
     </>
-  );
-};
+  )
+}
 
-export default Emotions;
+export default Emotions

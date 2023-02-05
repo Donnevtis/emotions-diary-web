@@ -1,7 +1,7 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import ToggleButton from '@mui/material/ToggleButton';
-import Grid from '@mui/material/Grid';
+import React from 'react'
+import Box from '@mui/material/Box'
+import ToggleButton from '@mui/material/ToggleButton'
+import Grid from '@mui/material/Grid'
 
 type Columns = {
   label: string;
@@ -46,6 +46,6 @@ const Emotionlist = ({
       ))}
     </Grid>
   </Box>
-);
+)
 
-export default Emotionlist;
+export default Emotionlist
