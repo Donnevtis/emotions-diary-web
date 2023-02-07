@@ -6,8 +6,8 @@ import { DEFAULT_ENERGY } from '../../resource/constants'
 import { useTranslation } from 'react-i18next'
 
 type EnergySliderProps = {
-  onChange: (energy: number) => void;
-};
+  onChange: (energy: number) => void
+}
 
 const EnergySlider = ({ onChange }: EnergySliderProps) => {
   const handleChange = (
@@ -26,7 +26,12 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
       <Typography variant='h6' className='energy__hint'>
         {t`energy:title`}
       </Typography>
-      <Slider defaultValue={DEFAULT_ENERGY} onChangeCommitted={handleChange} />
+      <Box padding='0 1rem'>
+        <Slider
+          defaultValue={DEFAULT_ENERGY}
+          onChangeCommitted={handleChange}
+        />
+      </Box>
     </Box>
   )
 }

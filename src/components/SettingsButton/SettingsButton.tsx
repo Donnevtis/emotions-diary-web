@@ -9,6 +9,7 @@ const SettingsButton = () => {
 
   return (
     <Button
+      disableRipple
       component={Link}
       to={PATHS.settings}
     >{t`buttons:notificationSettings`}</Button>

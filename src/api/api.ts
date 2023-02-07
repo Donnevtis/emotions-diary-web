@@ -16,7 +16,13 @@ const responseHandler = async (resp: Response) => {
   return resp.json()
 }
 
-const urlWithUserId = (baseUrl: string) => new URL(String(user_id), baseUrl)
+const urlWithUserId = (baseUrl: string) => {
+  const userId = String(user_id)
+  const url = new URL(baseUrl)
+  url.searchParams.append('user_id', userId)
+
+  return url
+}
 
 export const sendData = async (data: object) =>
   fetch(VITE_BOT_URL, {
@@ -28,7 +34,7 @@ export const sendData = async (data: object) =>
     body: JSON.stringify(data),
   })
 
-export const getSettings = async (): Promise<UserTimerSettings> => {
+export const getSettings = async (): Promise<UserTimerSettings | null> => {
   if (!user_id) {
     throw new Error('User id not found')
   }
@@ -64,7 +70,7 @@ export const getState = async (): Promise<UserState[]> => {
   return fetch(urlWithUserId(VITE_STATE_URL), {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: bearer,
     },
   }).then(responseHandler)
 }
@@ -75,12 +81,13 @@ export const addState = async (state: UserState) => {
   }
 
   const url = urlWithUserId(VITE_STATE_URL)
-  url.searchParams.append('time', state.timestamp)
+  url.searchParams.append('time', Date.now().toString())
 
   return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: bearer,
     },
     body: JSON.stringify(state),
   }).then(responseHandler)

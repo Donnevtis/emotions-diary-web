@@ -1,7 +1,7 @@
 {
   "name": "emotions-diary-webapp",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,11 +11,13 @@
     "deploy": "surge dist https://skin.surge.sh",
     "lint": "eslint --cache src/**/*.tsx src/**/*.ts",
     "prepare": "husky install",
-    "publish": "aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive dist/ s3://webapp-service"
+    "publish": "aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive dist/ s3://webapp-service",
+    "upgtw": "yc serverless api-gateway update --id d5dejk0dhvj322cfejbn --spec=gateway.yaml"
   },
   "dependencies": {
     "@fontsource/roboto": "4.5.8",
     "@mui/icons-material": "5.11.0",
+    "@mui/lab": "5.0.0-alpha.118",
     "@mui/material": "5.11.6",
     "@mui/x-date-pickers": "5.0.16",
     "dayjs": "1.11.7",

@@ -18,7 +18,12 @@ import {
 import { Add } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { DEFAULT_REMINDERS, TIME_FORMAT } from '../../resource/constants'
+import {
+  DEFAULT_REMINDERS,
+  DEFAULT_SETTINGS,
+  TIME_FORMAT,
+  TIME_FORMAT_Z,
+} from '../../resource/constants'
 import { PATHS } from '../../types'
 import { getSettings, updateSettings } from '../../api/api'
 import { printError } from '../../utils/utils'
@@ -27,8 +32,16 @@ import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
 import tg from '../../telegram'
 import timersReducer from './Settings.reducer'
 import { ActionType } from './Settings.types'
+import utc from 'dayjs/plugin/utc'
+import i18next from '../../i18n'
+
+dayjs.extend(utc)
 
 const { expand } = tg
+
+const toUTC = (time: string) =>
+  dayjs(time, TIME_FORMAT).utc().format(TIME_FORMAT_Z)
+const toLocal = (time: string) => dayjs(time, TIME_FORMAT_Z).format(TIME_FORMAT)
 
 const Settings = () => {
   const [loading, setLoading] = useState<boolean>(true)
@@ -39,12 +52,20 @@ const Settings = () => {
   const [timeValue, setTimeValue] = useState<Dayjs | null>(
     dayjs('12:00', TIME_FORMAT)
   )
+
   const fabRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     getSettings()
-      .then(({ notify, reminder_timers }) => {
-        dispatchTimers({ type: ActionType.update, payload: reminder_timers })
+      .then((settings) => {
+        settings ??= DEFAULT_SETTINGS
+        const { notify, reminder_timers } = settings
+
+        dispatchTimers({
+          type: ActionType.update,
+          payload: reminder_timers.map(toLocal),
+        })
+
         setSwitchOn(notify)
       })
       .catch((error) => {
@@ -63,6 +84,7 @@ const Settings = () => {
 
   const handleSwitch = () => {
     setSwitchOn(!switchOn)
+
     if (!timers.length && fabRef.current) {
       fabRef.current.dispatchEvent(new Event('click', { bubbles: true }))
     }
@@ -81,11 +103,14 @@ const Settings = () => {
     })
   }
 
-  const handleClose = () => {
+  const handleOkClick = () => {
+    setTimeout(setLoading, 800, true)
+
     updateSettings({
-      reminder_timers: timers,
+      reminder_timers: timers.map(toUTC),
       notify: switchOn,
       time_offset: new Date(Date.now()).getTimezoneOffset(),
+      language_code: i18next.resolvedLanguage,
     })
       .then(() => {
         setOpen(false)
@@ -94,6 +119,7 @@ const Settings = () => {
         setError(true)
         printError(error)
       })
+      .finally(() => setLoading(false))
   }
 
   const handleExit = () => navigate(PATHS.root)
@@ -169,7 +195,7 @@ const Settings = () => {
           <Button
             sx={{ width: '100%' }}
             variant='contained'
-            onClick={handleClose}
+            onClick={handleOkClick}
           >
             OK
           </Button>

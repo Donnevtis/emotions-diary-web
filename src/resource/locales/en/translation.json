@@ -29,5 +29,8 @@
   },
   "common": {
     "close": "Close"
+  },
+  "history": {
+    "energy": "Energy"
   }
 }

@@ -1,8 +1,10 @@
+import { UserTimerSettings } from '../types'
+
 type TgTheme = Pick<
   Telegram['WebApp'],
   'colorScheme' | 'headerColor' | 'backgroundColor'
 > &
-  Telegram['WebApp']['themeParams'];
+  Telegram['WebApp']['themeParams']
 
 export const DARK_TG_THEME: TgTheme = {
   colorScheme: 'dark',
@@ -31,7 +33,15 @@ export const WHITE_TG_THEME: TgTheme = {
 }
 
 export const TIME_FORMAT = 'HH:mm'
+export const TIME_FORMAT_Z = 'HH:mm Z'
 
 export const DEFAULT_REMINDERS = []
+
+export const DEFAULT_SETTINGS: UserTimerSettings = {
+  notify: false,
+  reminder_timers: DEFAULT_REMINDERS,
+  time_offset: 0,
+  language_code: 'en',
+}
 
 export const DEFAULT_ENERGY = 50

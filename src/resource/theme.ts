@@ -20,17 +20,17 @@ const tgTheme = () => {
 
   return import.meta.env.PROD
     ? {
-      colorScheme,
-      headerColor,
-      backgroundColor,
-      bg_color,
-      text_color,
-      hint_color,
-      button_color,
-      button_text_color,
-      link_color,
-      secondary_bg_color,
-    }
+        colorScheme,
+        headerColor,
+        backgroundColor,
+        bg_color,
+        text_color,
+        hint_color,
+        button_color,
+        button_text_color,
+        link_color,
+        secondary_bg_color,
+      }
     : DARK_TG_THEME
 }
 

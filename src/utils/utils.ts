@@ -26,10 +26,10 @@ export const updateArrayItem = <T>(
   index: number,
   newItem: T
 ): T[] => [
-    ...array.slice(0, index),
-    newItem,
-    ...array.slice(index, array.length - 1),
-  ]
+  ...array.slice(0, index),
+  newItem,
+  ...array.slice(index, array.length - 1),
+]
 
 export const queryParam = (query: string) =>
   new URLSearchParams(window.location.search).get(query)
