@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
 import { Container, CardHeader, Card, CardContent } from '@mui/material'
 import { getState } from '../../api/api'
-import { UserState } from '../../types'
+import { PATHS, UserState } from '../../types'
 import TimeLine from './TimeLine'
 import tg from '../../telegram'
 import { useNavigate } from 'react-router-dom'
@@ -33,8 +33,10 @@ const HistoryCard = () => {
   useEffect(() => {
     getState()
       .then((stack) => setStack(stack))
-      .catch(() => showAlert(String(t('errors:sorry'))))
-  }, [t])
+      .catch(() =>
+        showAlert(String(t('errors:sorry')), () => navigate(PATHS.root))
+      )
+  }, [t, navigate])
 
   useEffect(() => {
     show()
