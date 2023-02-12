@@ -3,8 +3,8 @@ import { initReactI18next } from 'react-i18next'
 import en from '../resource/locales/en/translation.json'
 import ru from '../resource/locales/ru/translation.json'
 
-export const init = (locale: string) => {
-  i18next.use(initReactI18next).init({
+export const init = async (locale: string) => {
+  await i18next.use(initReactI18next).init({
     resources: { en, ru },
     supportedLngs: ['en', 'ru'],
     debug: import.meta.env.DEV,

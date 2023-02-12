@@ -16,18 +16,24 @@ import { routes } from './routes'
 import dayjs from 'dayjs'
 import { language_code } from './telegram'
 
-Telegram.WebApp.ready()
+init(language_code).then(({ resolvedLanguage }) => {
+  Telegram.WebApp.ready()
 
-const language = init(language_code).resolvedLanguage
-dayjs.locale(language)
+  dayjs.locale(resolvedLanguage)
 
-const router = createBrowserRouter(routes)
+  const router = createBrowserRouter(routes)
 
-ReactDOM.createRoot(document.getElementById('emd-root') as HTMLElement).render(
-  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  </LocalizationProvider>
-)
+  ReactDOM.createRoot(
+    document.getElementById('emd-root') as HTMLElement
+  ).render(
+    <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale={resolvedLanguage}
+    >
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </LocalizationProvider>
+  )
+})
