@@ -41,7 +41,9 @@ const Settings = () => {
   const [switchOn, setSwitchOn] = useState<boolean>(false)
   const [hasError, setError] = useState<boolean>(false)
   const [timers, dispatchTimers] = useReducer(timersReducer, DEFAULT_REMINDERS)
-  const [timeValue, setTimeValue] = useState<Dayjs | null>(null)
+  const [timeValue, setTimeValue] = useState<Dayjs | null>(
+    dayjs().minute(Math.round(dayjs().minute() / 15) * 15)
+  )
   const [oldSettings, setOldSettings] = useState('')
   const navigate = useNavigate()
   const { t } = useTranslation()
