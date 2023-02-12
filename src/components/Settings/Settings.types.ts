@@ -6,37 +6,36 @@ export enum ActionType {
 }
 
 type AddAction = {
-  type: ActionType.add;
-  payload: string;
-};
+  type: ActionType.add
+  payload: string
+}
 
 type DeleteAction = {
-  type: ActionType.delete;
-  payload: number;
-};
+  type: ActionType.delete
+  payload: number
+}
 
 type EditAction = {
-  type: ActionType.edit;
+  type: ActionType.edit
   payload: {
-    index: number;
-    timer: string;
-  };
-};
+    index: number
+    timer: string
+  }
+}
 
 type UpdateAction = {
-  type: ActionType.update;
-  payload: Array<string>;
-};
+  type: ActionType.update
+  payload: Array<string>
+}
 
-export type SettingAction =
-  | AddAction
-  | DeleteAction
-  | EditAction
-  | UpdateAction;
+export type SettingAction = AddAction | DeleteAction | EditAction | UpdateAction
+
+export type TimersToDisabled = Record<number, Array<number> | undefined>
 
 export type TimePickerListItemProps = {
-  disTime?: string[];
-  index: number;
-  timer: string;
-  dispatchTimers: (value: SettingAction) => void;
-};
+  disTime?: string[]
+  index: number
+  timer: string
+  timersToDisabled: TimersToDisabled
+  dispatchTimers: (value: SettingAction) => void
+}

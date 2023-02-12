@@ -1,21 +1,22 @@
 import { CircularProgress, Backdrop } from '@mui/material'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { addState } from '../api/api'
+import { addState, sendDataToBot } from '../api/api'
 import Emotions from '../components/Emotions/Emotions'
 import EnergySlider from '../components/EnergySlider/EnergySlider'
 import { DEFAULT_ENERGY } from '../resource/constants'
-import tg from '../telegram'
+import { MainButton, showAlert } from '../telegram'
 import { PATHS, UserState } from '../types'
 
-const {
-  MainButton: { show, hide, isVisible, setParams, onClick, offClick },
-  showAlert,
-} = tg
+dayjs.extend(timezone)
+
+const { show, hide, isVisible, setParams, onClick, offClick } = MainButton
 
 const MoodPicker = () => {
-  const [isFetch, setIsFetch] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [energy, setEnergy] = useState<number>(DEFAULT_ENERGY)
   const [emotion, setEmotion] = useState<string>('')
   const navigate = useNavigate()
@@ -33,16 +34,19 @@ const MoodPicker = () => {
     const data: UserState = {
       emotion,
       energy,
-      timestamp: Date.now().toString(),
+      timestamp: Date.now(),
+      timezone: dayjs.tz.guess(),
     }
 
     const sendDataCallback = async () => {
-      setIsFetch(true)
+      setLoading(true)
       addState(data)
-        .then(() => navigate(PATHS.history))
+        .then(() => sendDataToBot(data))
         .catch(() => showAlert(String(t('errors:sorry'))))
-        .finally(() => setIsFetch(false))
-      hide()
+        .finally(() => {
+          hide()
+          setLoading(false)
+        })
     }
 
     onClick(sendDataCallback)
@@ -56,14 +60,34 @@ const MoodPicker = () => {
     setParams({ text: t`webView:sendButton` || 'OK' })
   }, [t])
 
+  const data: UserState = {
+    emotion,
+    energy,
+    timestamp: Date.now(),
+    timezone: dayjs.tz.guess(),
+  }
+
   return (
     <>
-      <Backdrop open={isFetch}>
+      <Backdrop open={loading}>
         <CircularProgress />
       </Backdrop>
 
       <EnergySlider onChange={setEnergy} />
       <Emotions onSelect={setEmotion} selectedEmotion={emotion} />
+      {import.meta.env.DEV && (
+        <button
+          onClick={async () => {
+            setLoading(true)
+            addState(data)
+              .then(() => navigate(PATHS.history))
+              .catch(() => showAlert(String(t('errors:sorry'))))
+              .finally(() => setLoading(false))
+          }}
+        >
+          SEND
+        </button>
+      )}
     </>
   )
 }

@@ -9,7 +9,7 @@ dayjs.updateLocale('ru', {
     sameDay: '[Сегодня,] DD MMMM',
     nextDay: '[Завтра]', // The next day ( Tomorrow at 2:30 AM )
     nextWeek: 'dddd', // The next week ( Sunday at 2:30 AM )
-    lastDay: '[Вчера] dddd', // The day before ( Yesterday at 2:30 AM )
+    lastDay: '[Вчера,] DD MMMM', // The day before ( Yesterday at 2:30 AM )
     lastWeek: 'dddd, D MMMM', // Last week ( Last Monday at 2:30 AM )
     sameElse: 'DD/MM/YYYY', // Everything else ( 7/10/2011 )
   },

@@ -5,9 +5,10 @@ import { Container, CardHeader, Card, CardContent } from '@mui/material'
 import { getState } from '../../api/api'
 import { PATHS, UserState } from '../../types'
 import TimeLine from './TimeLine'
-import tg from '../../telegram'
+import { BackButton, showAlert } from '../../telegram'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import FallbackBackdrop from '../Fallback/FallbackBackdrop'
 
 dayjs.extend(calendar)
 
@@ -20,22 +21,27 @@ const divideByDays = (stack: UserState[]) =>
     return prev
   }, {})
 
-const {
-  BackButton: { show, hide, onClick, offClick },
-  showAlert,
-} = tg
+const { show, hide, onClick, offClick } = BackButton
 
 const HistoryCard = () => {
+  const [loading, isLoading] = useState<boolean>(true)
   const [stack, setStack] = useState<UserState[]>([])
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   useEffect(() => {
     getState()
-      .then((stack) => setStack(stack))
+      .then((stack) => {
+        if (!stack.length) {
+          showAlert(String(t('history:empty')), () => navigate(PATHS.root))
+        }
+
+        setStack(stack)
+      })
       .catch(() =>
         showAlert(String(t('errors:sorry')), () => navigate(PATHS.root))
       )
+      .finally(() => isLoading(false))
   }, [t, navigate])
 
   useEffect(() => {
@@ -60,7 +66,9 @@ const HistoryCard = () => {
         marginBottom: '1rem',
       }}
     >
-      {timeline &&
+      {loading ? (
+        <FallbackBackdrop />
+      ) : (
         Object.entries(timeline).map(([day, stack]) => (
           <Card key={day}>
             <CardHeader
@@ -78,7 +86,8 @@ const HistoryCard = () => {
               <TimeLine stack={stack} />
             </CardContent>
           </Card>
-        ))}
+        ))
+      )}
     </Container>
   )
 }

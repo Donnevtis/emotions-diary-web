@@ -1,13 +1,17 @@
 import React, { FC, Suspense, PropsWithChildren, lazy } from 'react'
 import App from '../App'
-import Fallback from '../components/Fallback/Fallback'
+import FallbackBackdrop from '../components/Fallback/FallbackBackdrop'
+import FallbackLocal from '../components/Fallback/FallbackLocal'
 import { PATHS } from '../types'
 
-const AsyncComponent: FC<PropsWithChildren> = ({ children }) => (
-  <Suspense fallback={<Fallback />}>{children}</Suspense>
+const AsyncComponentLocal: FC<PropsWithChildren> = ({ children }) => (
+  <Suspense fallback={<FallbackLocal />}>{children}</Suspense>
+)
+const AsyncComponentBackdrop: FC<PropsWithChildren> = ({ children }) => (
+  <Suspense fallback={<FallbackBackdrop />}>{children}</Suspense>
 )
 
-const HistoryCard = lazy(() => import('../components/HistoryCard/HistoryCard'))
+const History = lazy(() => import('../components/History/History'))
 const ErrorPage = lazy(() => import('../components/ErrorPage/ErrorPage'))
 const Settings = lazy(() => import('../components/Settings/Settings'))
 
@@ -16,17 +20,17 @@ export const routes = [
     path: PATHS.root,
     element: <App />,
     errorElement: (
-      <AsyncComponent>
+      <AsyncComponentBackdrop>
         <ErrorPage />
-      </AsyncComponent>
+      </AsyncComponentBackdrop>
     ),
     children: [
       {
         path: PATHS.settings,
         element: (
-          <AsyncComponent>
+          <AsyncComponentLocal>
             <Settings />
-          </AsyncComponent>
+          </AsyncComponentLocal>
         ),
       },
     ],
@@ -34,14 +38,14 @@ export const routes = [
   {
     path: PATHS.history,
     element: (
-      <AsyncComponent>
-        <HistoryCard />
-      </AsyncComponent>
+      <AsyncComponentBackdrop>
+        <History />
+      </AsyncComponentBackdrop>
     ),
     errorElement: (
-      <AsyncComponent>
+      <AsyncComponentBackdrop>
         <ErrorPage />
-      </AsyncComponent>
+      </AsyncComponentBackdrop>
     ),
   },
 ]

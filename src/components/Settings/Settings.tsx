@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import TimePickerListItem from './TimePickerListItem/TimePickerListItem'
 import {
   Stack,
@@ -22,26 +22,18 @@ import {
   DEFAULT_REMINDERS,
   DEFAULT_SETTINGS,
   TIME_FORMAT,
-  TIME_FORMAT_Z,
 } from '../../resource/constants'
 import { PATHS } from '../../types'
 import { getSettings, updateSettings } from '../../api/api'
 import { printError } from '../../utils/utils'
 import dayjs, { Dayjs } from 'dayjs'
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
-import tg from '../../telegram'
+import { expand } from '../../telegram'
 import timersReducer from './Settings.reducer'
 import { ActionType } from './Settings.types'
-import utc from 'dayjs/plugin/utc'
-import i18next from '../../i18n'
-
-dayjs.extend(utc)
-
-const { expand } = tg
-
-const toUTC = (time: string) =>
-  dayjs(time, TIME_FORMAT).utc().format(TIME_FORMAT_Z)
-const toLocal = (time: string) => dayjs(time, TIME_FORMAT_Z).format(TIME_FORMAT)
+import i18n from '../../i18n'
+import useDisableTime from './useDisableTime'
+import { divTimers, toLocal, toUTC } from './utils'
 
 const Settings = () => {
   const [loading, setLoading] = useState<boolean>(true)
@@ -49,15 +41,21 @@ const Settings = () => {
   const [switchOn, setSwitchOn] = useState<boolean>(false)
   const [hasError, setError] = useState<boolean>(false)
   const [timers, dispatchTimers] = useReducer(timersReducer, DEFAULT_REMINDERS)
-  const [timeValue, setTimeValue] = useState<Dayjs | null>(
-    dayjs('12:00', TIME_FORMAT)
-  )
+  const [timeValue, setTimeValue] = useState<Dayjs | null>(null)
+  const [oldSettings, setOldSettings] = useState('')
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const fabRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setOpen(true)
+  }, [setOpen])
+
+  useEffect(() => {
     getSettings()
       .then((settings) => {
+        setOldSettings(JSON.stringify(settings))
         settings ??= DEFAULT_SETTINGS
         const { notify, reminder_timers } = settings
 
@@ -80,7 +78,6 @@ const Settings = () => {
       setSwitchOn(false)
     }
   }, [timers])
-  const navigate = useNavigate()
 
   const handleSwitch = () => {
     setSwitchOn(!switchOn)
@@ -96,7 +93,7 @@ const Settings = () => {
     setTimeValue(newValue)
   }
 
-  const handleClosePicker = () => {
+  const handleAccept = () => {
     dispatchTimers({
       type: ActionType.add,
       payload: dayjs(timeValue).format(TIME_FORMAT),
@@ -104,13 +101,24 @@ const Settings = () => {
   }
 
   const handleOkClick = () => {
+    const settings = {
+      language_code: i18n.resolvedLanguage,
+      notify: switchOn,
+      reminder_timers: timers.map(toUTC),
+      time_offset: new Date(Date.now()).getTimezoneOffset(),
+    }
+
+    if (oldSettings === JSON.stringify(settings)) {
+      setOpen(false)
+      return
+    }
     setTimeout(setLoading, 800, true)
 
     updateSettings({
       reminder_timers: timers.map(toUTC),
-      notify: switchOn,
+      notify: timers.length ? switchOn : false,
       time_offset: new Date(Date.now()).getTimezoneOffset(),
-      language_code: i18next.resolvedLanguage,
+      language_code: i18n.resolvedLanguage,
     })
       .then(() => {
         setOpen(false)
@@ -124,11 +132,8 @@ const Settings = () => {
 
   const handleExit = () => navigate(PATHS.root)
 
-  useEffect(() => {
-    setOpen(true)
-  }, [setOpen])
-
-  const { t } = useTranslation()
+  const timersToDisabled = useMemo(() => divTimers(timers), [timers])
+  const shouldDisableTime = useDisableTime(timersToDisabled, timeValue)
 
   return (
     <Collapse in={open} onExited={handleExit}>
@@ -145,7 +150,8 @@ const Settings = () => {
           <Collapse in={switchOn}>
             {timers.map((time, index) => (
               <TimePickerListItem
-                key={time + index}
+                timersToDisabled={timersToDisabled}
+                key={time}
                 index={index}
                 timer={time}
                 dispatchTimers={dispatchTimers}
@@ -158,8 +164,9 @@ const Settings = () => {
                 value={timeValue}
                 onChange={handleChange}
                 onOpen={handleOpenPicker}
-                onClose={handleClosePicker}
+                onAccept={handleAccept}
                 minutesStep={15}
+                shouldDisableTime={shouldDisableTime}
                 renderInput={({ onClick }) => (
                   <div onClick={onClick} ref={fabRef}>
                     <Fab

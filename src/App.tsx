@@ -8,15 +8,19 @@ import { Outlet } from 'react-router-dom'
 import MoodPicker from './layouts/MoodPicker'
 import './App.css'
 import SettingsButton from './components/SettingsButton/SettingsButton'
+import HistoryButton from './components/HistroyButton/HistoryButton'
 
 const App = () => (
   <Container>
     <Outlet />
     <Stack justifyContent='space-around' gap={1}>
       <MoodPicker />
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      >
         <ReportButton />
         <SettingsButton />
+        <HistoryButton />
       </Box>
     </Stack>
   </Container>

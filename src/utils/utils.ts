@@ -18,7 +18,7 @@ export const printError = (...error: unknown[]) => console.error(...error)
 
 export const deleteItemFromArray = <T>(array: T[], index: number): T[] => [
   ...array.slice(0, index),
-  ...array.slice(index, array.length - 1),
+  ...array.slice(index + 1, array.length),
 ]
 
 export const updateArrayItem = <T>(
@@ -28,7 +28,7 @@ export const updateArrayItem = <T>(
 ): T[] => [
   ...array.slice(0, index),
   newItem,
-  ...array.slice(index, array.length - 1),
+  ...array.slice(index + 1, array.length),
 ]
 
 export const queryParam = (query: string) =>

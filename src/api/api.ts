@@ -1,9 +1,8 @@
-import { UserState, UserTimerSettings } from '../types'
-import { user_id } from '../telegram'
+import { API_PATHS, Ranges, UserState, UserTimerSettings } from '../types'
+import { initDataUnsafe, user_id } from '../telegram'
 import { queryParam } from '../utils/utils'
 
-const { VITE_BOT_URL, VITE_SETTINGS_URL, VITE_STATE_URL, VITE_TOKEN } =
-  import.meta.env
+const { VITE_GATEWAY_URL, VITE_TOKEN } = import.meta.env
 
 const token = queryParam('token') || VITE_TOKEN
 
@@ -16,22 +15,22 @@ const responseHandler = async (resp: Response) => {
   return resp.json()
 }
 
-const urlWithUserId = (baseUrl: string) => {
+const urlWithUserId = (path = '/', baseUrl = VITE_GATEWAY_URL) => {
   const userId = String(user_id)
-  const url = new URL(baseUrl)
+  const url = new URL(path, baseUrl)
   url.searchParams.append('user_id', userId)
 
   return url
 }
 
-export const sendData = async (data: object) =>
-  fetch(VITE_BOT_URL, {
+export const sendDataToBot = async (data: object) =>
+  fetch(urlWithUserId(API_PATHS.bot), {
     headers: {
       Authorization: bearer,
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, query_id: initDataUnsafe.query_id }),
   })
 
 export const getSettings = async (): Promise<UserTimerSettings | null> => {
@@ -39,7 +38,7 @@ export const getSettings = async (): Promise<UserTimerSettings | null> => {
     throw new Error('User id not found')
   }
 
-  return fetch(urlWithUserId(VITE_SETTINGS_URL), {
+  return fetch(urlWithUserId(API_PATHS.settings), {
     headers: {
       Authorization: bearer,
     },
@@ -52,13 +51,13 @@ export const updateSettings = async (settings: UserTimerSettings) => {
     throw new Error('User id not found')
   }
 
-  return fetch(urlWithUserId(VITE_SETTINGS_URL), {
+  return fetch(urlWithUserId(API_PATHS.settings), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: bearer,
     },
-    body: JSON.stringify(settings),
+    body: JSON.stringify({ user_id, ...settings }),
   }).then(responseHandler)
 }
 
@@ -67,7 +66,7 @@ export const getState = async (): Promise<UserState[]> => {
     throw new Error('User id not found')
   }
 
-  return fetch(urlWithUserId(VITE_STATE_URL), {
+  return fetch(urlWithUserId(API_PATHS.state), {
     method: 'GET',
     headers: {
       Authorization: bearer,
@@ -80,10 +79,7 @@ export const addState = async (state: UserState) => {
     throw new Error('User id not found')
   }
 
-  const url = urlWithUserId(VITE_STATE_URL)
-  url.searchParams.append('time', Date.now().toString())
-
-  return fetch(url, {
+  return fetch(urlWithUserId(API_PATHS.state), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -91,4 +87,30 @@ export const addState = async (state: UserState) => {
     },
     body: JSON.stringify(state),
   }).then(responseHandler)
+}
+
+export const getReport = (
+  type: string,
+  lang: string,
+  { start, end }: Ranges
+) => {
+  if (!user_id) {
+    throw new Error('User id not found')
+  }
+
+  const url = urlWithUserId(API_PATHS.report)
+  url.searchParams.append('type', type)
+  url.searchParams.append('lang', lang)
+  start !== void 0 && url.searchParams.append('start', String(start))
+  end !== void 0 && url.searchParams.append('end', String(end))
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: bearer,
+    },
+  }).then((res) => {
+    if (res.status !== 200) throw new Error()
+    return res.blob()
+  })
 }

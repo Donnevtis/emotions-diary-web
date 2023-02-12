@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import dayjs, { Dayjs } from 'dayjs'
-import tg from '../../../telegram'
+import { expand } from '../../../telegram'
 import { TIME_FORMAT } from '../../../resource/constants'
 import { useTranslation } from 'react-i18next'
 import {
@@ -14,44 +14,47 @@ import {
 import { MobileTimePicker } from '@mui/x-date-pickers'
 import { CircleNotifications, DeleteForever } from '@mui/icons-material'
 import { TimePickerListItemProps, ActionType } from '../Settings.types'
-
-const { expand } = tg
+import useDisableTime from '../useDisableTime'
 
 const TimePickerListItem = ({
-  timer = '12:00',
+  timer,
   index,
   dispatchTimers,
+  timersToDisabled,
 }: TimePickerListItemProps) => {
-  const [value, setValue] = useState<Dayjs | null>(dayjs(timer, TIME_FORMAT))
+  const [dayjsTime, setDayjsTime] = useState<Dayjs | null>(
+    dayjs(timer, TIME_FORMAT)
+  )
+  const shouldDisableTime = useDisableTime(timersToDisabled, dayjsTime)
+  const { t } = useTranslation()
 
   const handleChange = (newValue: Dayjs | null) => {
-    setValue(newValue)
+    setDayjsTime(newValue)
   }
 
   const handleOpen = () => {
     expand()
   }
 
-  const handleClose = () => {
+  const handleAccept = () => {
     dispatchTimers({
       type: ActionType.edit,
-      payload: { index, timer: dayjs(value).format(TIME_FORMAT) },
+      payload: { index, timer: dayjs(dayjsTime).format(TIME_FORMAT) },
     })
   }
 
   const HandleDelete = () =>
     dispatchTimers({ type: ActionType.delete, payload: index })
 
-  const { t } = useTranslation()
-
   return (
     <MobileTimePicker
       toolbarTitle={t`timePicker:title`}
-      value={value}
+      value={dayjsTime}
       onChange={handleChange}
       onOpen={handleOpen}
-      onClose={handleClose}
+      onAccept={handleAccept}
       minutesStep={15}
+      shouldDisableTime={shouldDisableTime}
       renderInput={({ onClick, inputProps }) => (
         <>
           <Divider />
