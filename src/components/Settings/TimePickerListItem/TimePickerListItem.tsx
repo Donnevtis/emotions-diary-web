@@ -36,9 +36,10 @@ const TimePickerListItem = ({
 
   const handleOpen = () => {
     expand()
+    setOpenPicker(index)
   }
+
   const handleClose = () => {
-    expand()
     setOpenPicker(null)
   }
 
@@ -58,7 +59,6 @@ const TimePickerListItem = ({
       toolbarTitle={t`timePicker:title`}
       value={dayjsTime}
       onChange={handleChange}
-      onOpen={handleOpen}
       onClose={handleClose}
       onAccept={handleAccept}
       minutesStep={5}
@@ -67,7 +67,7 @@ const TimePickerListItem = ({
         <>
           <Divider />
           <ListItem>
-            <ListItemButton onClick={() => setOpenPicker(index)}>
+            <ListItemButton onClick={handleOpen}>
               <ListItemIcon>
                 <CircleNotifications color='primary' />
               </ListItemIcon>
