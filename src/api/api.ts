@@ -23,7 +23,7 @@ const urlWithUserId = (path = '/', baseUrl = VITE_GATEWAY_URL) => {
   return url
 }
 
-export const sendDataToBot = async (data: object) =>
+export const sendDataToBot = (data: object) =>
   fetch(urlWithUserId(API_PATHS.bot), {
     headers: {
       Authorization: bearer,
@@ -33,7 +33,7 @@ export const sendDataToBot = async (data: object) =>
     body: JSON.stringify({ ...data, query_id: initDataUnsafe.query_id }),
   })
 
-export const getSettings = async (): Promise<UserTimerSettings | null> => {
+export const getSettings = (): Promise<UserTimerSettings | null> => {
   if (!user_id) {
     throw new Error('User id not found')
   }
@@ -46,7 +46,7 @@ export const getSettings = async (): Promise<UserTimerSettings | null> => {
   }).then(responseHandler)
 }
 
-export const updateSettings = async (settings: UserTimerSettings) => {
+export const updateSettings = (settings: UserTimerSettings) => {
   if (!user_id) {
     throw new Error('User id not found')
   }
@@ -61,7 +61,7 @@ export const updateSettings = async (settings: UserTimerSettings) => {
   }).then(responseHandler)
 }
 
-export const getState = async (): Promise<UserState[]> => {
+export const getState = (): Promise<UserState[]> => {
   if (!user_id) {
     throw new Error('User id not found')
   }
@@ -74,7 +74,7 @@ export const getState = async (): Promise<UserState[]> => {
   }).then(responseHandler)
 }
 
-export const addState = async (state: UserState) => {
+export const addState = (state: UserState) => {
   if (!user_id) {
     throw new Error('User id not found')
   }

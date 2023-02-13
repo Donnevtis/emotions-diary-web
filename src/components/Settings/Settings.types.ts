@@ -36,6 +36,8 @@ export type TimePickerListItemProps = {
   disTime?: string[]
   index: number
   timer: string
+  openPicker: number | null
+  setOpenPicker: React.Dispatch<React.SetStateAction<number | null>>
   timersToDisabled: TimersToDisabled
   dispatchTimers: (value: SettingAction) => void
 }

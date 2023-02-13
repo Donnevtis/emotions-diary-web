@@ -19,6 +19,8 @@ import useDisableTime from '../useDisableTime'
 const TimePickerListItem = ({
   timer,
   index,
+  openPicker,
+  setOpenPicker,
   dispatchTimers,
   timersToDisabled,
 }: TimePickerListItemProps) => {
@@ -35,6 +37,10 @@ const TimePickerListItem = ({
   const handleOpen = () => {
     expand()
   }
+  const handleClose = () => {
+    expand()
+    setOpenPicker(null)
+  }
 
   const handleAccept = () => {
     dispatchTimers({
@@ -48,18 +54,20 @@ const TimePickerListItem = ({
 
   return (
     <MobileTimePicker
+      open={openPicker === index}
       toolbarTitle={t`timePicker:title`}
       value={dayjsTime}
       onChange={handleChange}
       onOpen={handleOpen}
+      onClose={handleClose}
       onAccept={handleAccept}
-      minutesStep={15}
+      minutesStep={5}
       shouldDisableTime={shouldDisableTime}
-      renderInput={({ onClick, inputProps }) => (
+      renderInput={({ inputProps }) => (
         <>
           <Divider />
           <ListItem>
-            <ListItemButton onClick={onClick}>
+            <ListItemButton onClick={() => setOpenPicker(index)}>
               <ListItemIcon>
                 <CircleNotifications color='primary' />
               </ListItemIcon>

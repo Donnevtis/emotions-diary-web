@@ -4,11 +4,7 @@ import { SettingAction, ActionType } from './Settings.types'
 const reducer = (state: Array<string>, action: SettingAction) => {
   switch (action.type) {
     case ActionType.add:
-      if (state.includes(action.payload)) {
-        return state
-      } else {
-        return [...state, action.payload]
-      }
+      return [...state, action.payload]
     case ActionType.delete:
       return deleteItemFromArray(state, action.payload)
     case ActionType.edit: {

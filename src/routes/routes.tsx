@@ -1,12 +1,9 @@
 import React, { FC, Suspense, PropsWithChildren, lazy } from 'react'
+import { getSettings } from '../api/api'
 import App from '../App'
 import FallbackBackdrop from '../components/Fallback/FallbackBackdrop'
-import FallbackLocal from '../components/Fallback/FallbackLocal'
 import { PATHS } from '../types'
 
-const AsyncComponentLocal: FC<PropsWithChildren> = ({ children }) => (
-  <Suspense fallback={<FallbackLocal />}>{children}</Suspense>
-)
 const AsyncComponentBackdrop: FC<PropsWithChildren> = ({ children }) => (
   <Suspense fallback={<FallbackBackdrop />}>{children}</Suspense>
 )
@@ -24,16 +21,20 @@ export const routes = [
         <ErrorPage />
       </AsyncComponentBackdrop>
     ),
-    children: [
-      {
-        path: PATHS.settings,
-        element: (
-          <AsyncComponentLocal>
-            <Settings />
-          </AsyncComponentLocal>
-        ),
-      },
-    ],
+  },
+  {
+    path: PATHS.settings,
+    loader: () => getSettings(),
+    element: (
+      <AsyncComponentBackdrop>
+        <Settings />
+      </AsyncComponentBackdrop>
+    ),
+    errorElement: (
+      <AsyncComponentBackdrop>
+        <ErrorPage />
+      </AsyncComponentBackdrop>
+    ),
   },
   {
     path: PATHS.history,
