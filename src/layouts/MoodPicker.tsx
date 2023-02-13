@@ -1,4 +1,4 @@
-import { CircularProgress, Backdrop } from '@mui/material'
+import { CircularProgress, Backdrop, Button } from '@mui/material'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import React, { useEffect, useState } from 'react'
@@ -76,7 +76,7 @@ const MoodPicker = () => {
       <EnergySlider onChange={setEnergy} />
       <Emotions onSelect={setEmotion} selectedEmotion={emotion} />
       {import.meta.env.DEV && (
-        <button
+        <Button
           onClick={async () => {
             setLoading(true)
             addState(data)
@@ -86,7 +86,7 @@ const MoodPicker = () => {
           }}
         >
           SEND
-        </button>
+        </Button>
       )}
     </>
   )
