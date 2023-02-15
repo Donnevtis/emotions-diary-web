@@ -31,5 +31,4 @@ export const updateArrayItem = <T>(
   ...array.slice(index + 1, array.length),
 ]
 
-export const queryParam = (query: string) =>
-  new URLSearchParams(window.location.search).get(query)
+export const queryParam = new URLSearchParams(window.location.search)

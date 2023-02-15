@@ -15,6 +15,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import dayjs from 'dayjs'
 import { language_code } from './telegram'
+import FallbackBackdrop from './components/Fallback/FallbackBackdrop'
 
 init(language_code).then(({ resolvedLanguage }) => {
   Telegram.WebApp.ready()
@@ -32,7 +33,10 @@ init(language_code).then(({ resolvedLanguage }) => {
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <RouterProvider router={router} />
+        <RouterProvider
+          router={router}
+          fallbackElement={<FallbackBackdrop />}
+        />
       </ThemeProvider>
     </LocalizationProvider>
   )

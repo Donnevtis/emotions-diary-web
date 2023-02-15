@@ -1,0 +1,17 @@
+.emotions-form__buttons {
+  border-block: solid;
+  writing-mode: horizontal-tb;
+  border-width: 1px;
+  border-color: var(--adm-color-border);
+  padding: 0 0.3rem;
+}
+.emotion-list {
+  height: 10rem;
+  overflow-y: scroll;
+}
+.emotion-list > li {
+  height: 2rem;
+}
+li:focus {
+  border: 1px solid rebeccapurple;
+}

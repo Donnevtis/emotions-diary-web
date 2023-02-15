@@ -4,7 +4,7 @@ import { queryParam } from '../utils/utils'
 
 const { VITE_GATEWAY_URL, VITE_TOKEN } = import.meta.env
 
-const token = queryParam('token') || VITE_TOKEN
+const token = queryParam.get('token') || VITE_TOKEN
 
 if (!token) throw new Error('Not authorized')
 
@@ -47,6 +47,21 @@ export const getSettings = (): Promise<UserTimerSettings | null> => {
       Authorization: bearer,
     },
     method: 'GET',
+  }).then(responseHandler)
+}
+
+export const putSettings = (settings: UserTimerSettings) => {
+  if (!user_id) {
+    throw new Error('User id not found')
+  }
+
+  return fetch(urlWithUserId(API_PATHS.settings), {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: bearer,
+    },
+    body: JSON.stringify({ user_id, ...settings }),
   }).then(responseHandler)
 }
 
