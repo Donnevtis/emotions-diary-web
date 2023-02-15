@@ -1,7 +1,8 @@
 {
   "settings": {
     "question": "Asking how you're doing?",
-    "hint": "You can change the settings later."
+    "hint": "You can change the settings later.",
+    "addTime": "Add time"
   },
   "energy": {
     "title": "Energy level"

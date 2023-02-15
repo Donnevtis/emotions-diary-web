@@ -8,7 +8,7 @@ import { addState, sendDataToBot } from '../api/api'
 import Emotions from '../components/Emotions/Emotions'
 import EnergySlider from '../components/EnergySlider/EnergySlider'
 import { DEFAULT_ENERGY } from '../resource/constants'
-import { MainButton, showAlert } from '../telegram'
+import { MainButton, showAlert, close } from '../telegram'
 import { PATHS, UserState } from '../types'
 
 dayjs.extend(timezone)
@@ -42,9 +42,9 @@ const MoodPicker = () => {
       setLoading(true)
       addState(data)
         .then(() => sendDataToBot(data))
+        .then(() => close())
         .catch(() => showAlert(String(t('errors:sorry'))))
         .finally(() => {
-          hide()
           setLoading(false)
         })
     }
