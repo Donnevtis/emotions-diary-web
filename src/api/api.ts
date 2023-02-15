@@ -1,5 +1,5 @@
 import { API_PATHS, Ranges, UserState, UserTimerSettings } from '../types'
-import { initDataUnsafe, user_id } from '../telegram'
+import { initDataUnsafe, language_code, user_id } from '../telegram'
 import { queryParam } from '../utils/utils'
 
 const { VITE_GATEWAY_URL, VITE_TOKEN } = import.meta.env
@@ -30,7 +30,11 @@ export const sendDataToBot = (data: object) =>
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: JSON.stringify({ ...data, query_id: initDataUnsafe.query_id }),
+    body: JSON.stringify({
+      ...data,
+      query_id: initDataUnsafe.query_id,
+      language_code,
+    }),
   })
 
 export const getSettings = (): Promise<UserTimerSettings | null> => {

@@ -8,11 +8,11 @@ import {
   Switch,
   Collapse,
   Divider,
-  Typography,
   Button,
   Alert,
   AlertTitle,
   Container,
+  Typography,
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
@@ -102,19 +102,12 @@ const Settings = () => {
             ))}
             <Divider />
             <ListItem>
-              <Button onClick={handleOpenPicker}>
-                <Add fontSize='small' /> Add time
+              <Button onClick={handleOpenPicker} startIcon={<Add />}>
+                {t('settings:addTime')}
               </Button>
             </ListItem>
           </Collapse>
         </List>
-
-        <Typography
-          variant='body2'
-          sx={{ fontSize: '.7em', display: 'flex', justifyContent: 'end' }}
-        >
-          {t`settings:hint`}
-        </Typography>
         {hasError && (
           <Alert
             severity='error'
