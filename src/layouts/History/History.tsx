@@ -5,7 +5,7 @@ import { CardHeader, Card, CardContent, Box, styled } from '@mui/material'
 import { getState } from '../../api/api'
 import { PATHS, UserState } from '../../types'
 import TimeLine from './TimeLine'
-import { BackButton, showAlert } from '../../telegram'
+import { showAlert } from '../../telegram'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import FallbackBackdrop from '../../components/Fallback/FallbackBackdrop'
@@ -25,8 +25,6 @@ const divideByDays = (stack: UserState[]) =>
 
     return prev
   }, {})
-
-const { show, hide, onClick, offClick } = BackButton
 
 const HistoryCard = () => {
   const [loading, isLoading] = useState<boolean>(true)
@@ -48,17 +46,6 @@ const HistoryCard = () => {
       )
       .finally(() => isLoading(false))
   }, [t, navigate])
-
-  useEffect(() => {
-    show()
-    const backButtonCallback = () => navigate(-1)
-    onClick(backButtonCallback)
-
-    return () => {
-      hide()
-      offClick(backButtonCallback)
-    }
-  }, [navigate])
 
   const timeline = useMemo(() => divideByDays(stack), [stack])
 
