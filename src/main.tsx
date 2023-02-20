@@ -14,10 +14,13 @@ import { init } from './i18n'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import dayjs from 'dayjs'
-import { language_code } from './telegram'
 import FallbackBackdrop from './components/Fallback/FallbackBackdrop'
+import { queryParam } from './utils/utils'
+import { language_code } from './telegram'
 
-init(language_code).then(({ resolvedLanguage }) => {
+const languageCode = queryParam.get('lang') || language_code
+
+init(languageCode).then(({ resolvedLanguage }) => {
   Telegram.WebApp.ready()
 
   dayjs.locale(resolvedLanguage)
