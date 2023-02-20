@@ -1,20 +1,20 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import ToggleButton from '@mui/material/ToggleButton'
-import Grid from '@mui/material/Grid'
+import { language_code } from '../../../telegram'
 
 type Columns = {
-  label: string;
-  value: string;
-}[];
+  label: string
+  value: string
+}[]
 
 type EmotionListProps = {
-  emotions: Columns;
-  value: number;
-  index: number;
-  selected: string;
-  onClick: (label: string) => void;
-};
+  emotions: Columns
+  value: number
+  index: number
+  selected: string
+  onClick: (label: string) => void
+}
 
 const Emotionlist = ({
   emotions,
@@ -24,27 +24,26 @@ const Emotionlist = ({
   onClick,
 }: EmotionListProps) => (
   <Box hidden={value !== index}>
-    <Grid container spacing={0.5}>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${language_code === 'ru' ? 2 : 3}, 1fr)`,
+        gap: '.5rem',
+      }}
+    >
       {emotions.map(({ label }) => (
-        <Grid
+        <ToggleButton
           key={label}
-          display='flex'
-          justifyContent='space-evenly'
-          alignItems='center'
-          xs
-          item
+          fullWidth
+          disableRipple
+          value={label}
+          selected={selected === label}
+          onClick={() => onClick(label)}
         >
-          <ToggleButton
-            disableRipple
-            value={label}
-            selected={selected === label}
-            onClick={() => onClick(label)}
-          >
-            {label}
-          </ToggleButton>
-        </Grid>
+          {label}
+        </ToggleButton>
       ))}
-    </Grid>
+    </Box>
   </Box>
 )
 
