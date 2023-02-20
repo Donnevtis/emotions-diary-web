@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box'
-import { SliderProps, Slider } from '@mui/material/'
+import { Slider } from '@mui/material/'
 import Typography from '@mui/material/Typography'
 import { defaultEnergy } from '../../../resource/defaults'
 import { useTranslation } from 'react-i18next'
@@ -10,31 +10,20 @@ import { Battery0Bar, BatteryFull } from '@mui/icons-material/'
 type EnergySliderProps = {
   onChange: (energy: number) => void
 }
-interface StyledSliderProps extends SliderProps {
-  thumbcolor: string
-}
 
-const percentToHex = (percent: number) => {
-  const percent8bit = +(percent * 2.55).toPrecision(3)
-
-  return `rgba(${255 - percent8bit},${percent8bit},0,1)`
-}
-
-const PrettoSlider = styled(Slider)<StyledSliderProps>(({ thumbcolor }) => ({
+const PrettoSlider = styled(Slider)({
   height: 8,
   '& .MuiSlider-rail': {
-    backgroundImage:
-      'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,0,0,1) 0%, rgba(0,255,16,1) 100%)',
-    opacity: 1,
+    backgroundColor: '#287233',
   },
   '& .MuiSlider-track': {
     border: 'none',
-    color: 'transparent',
+    color: '#287233',
   },
   '& .MuiSlider-thumb': {
     height: 24,
     width: 24,
-    backgroundColor: thumbcolor,
+    backgroundColor: '#287233',
     '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
       boxShadow: 'inherit',
     },
@@ -42,26 +31,15 @@ const PrettoSlider = styled(Slider)<StyledSliderProps>(({ thumbcolor }) => ({
       display: 'none',
     },
   },
-}))
+})
 
 const EnergySlider = ({ onChange }: EnergySliderProps) => {
-  const [thumbColor, setThumbColor] = useState(percentToHex(defaultEnergy))
-
   const handleChangeCommitted = (
     _: Event | React.SyntheticEvent<Element, Event>,
     value: number | number[]
   ) => {
     if (typeof value === 'number') {
       onChange(value)
-    }
-  }
-
-  const handleChange = (
-    _: Event | React.SyntheticEvent<Element, Event>,
-    value: number | number[]
-  ) => {
-    if (typeof value === 'number') {
-      setThumbColor(percentToHex(value))
     }
   }
 
@@ -76,19 +54,17 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
         <Stack spacing={2} direction='row' sx={{ mb: 1 }} alignItems='center'>
           <Battery0Bar
             sx={{
-              color: 'red',
+              color: '#9c392b',
             }}
           />
           <PrettoSlider
-            thumbcolor={thumbColor}
             defaultValue={defaultEnergy}
             onChangeCommitted={handleChangeCommitted}
-            onChange={handleChange}
             valueLabelDisplay='auto'
           />
           <BatteryFull
             sx={{
-              color: 'lime',
+              color: '#287233',
             }}
           />
         </Stack>
