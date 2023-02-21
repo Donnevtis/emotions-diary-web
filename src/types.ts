@@ -24,7 +24,6 @@ export type UserTimerSettings = {
   reminder_timers: Array<string>
   time_offset: number
   notify: boolean
-  language_code: string
 }
 
 export type UserState = {

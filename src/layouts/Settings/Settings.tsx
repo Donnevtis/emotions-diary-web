@@ -23,8 +23,6 @@ import { printError } from '../../utils/utils'
 import { expand } from '../../telegram'
 import timersReducer from './Settings.reducer'
 import { ActionType } from './Settings.types'
-import i18n from '../../i18n'
-
 import { divTimers, toLocal, toUTC } from './utils'
 
 const Settings = () => {
@@ -49,7 +47,6 @@ const Settings = () => {
 
   useEffect(() => {
     updateSettings({
-      language_code: i18n.resolvedLanguage,
       notify: switchOn,
       reminder_timers: Array.from(new Set(timers.map(toUTC))),
       time_offset: new Date().getTimezoneOffset(),
