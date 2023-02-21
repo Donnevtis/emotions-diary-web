@@ -1,6 +1,7 @@
 import { API_PATHS, Ranges, UserState, UserTimerSettings } from '../types'
-import { initDataUnsafe, language_code, user_id } from '../telegram'
+import { initDataUnsafe, user_id } from '../telegram'
 import { queryParam } from '../utils/utils'
+import i18n from '../i18n'
 
 const { VITE_GATEWAY_URL, VITE_TOKEN } = import.meta.env
 
@@ -33,7 +34,7 @@ export const sendDataToBot = (data: object) =>
     body: JSON.stringify({
       ...data,
       query_id: initDataUnsafe.query_id,
-      language_code,
+      language_code: i18n.resolvedLanguage,
     }),
   })
 
