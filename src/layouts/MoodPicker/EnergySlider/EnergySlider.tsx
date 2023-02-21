@@ -46,13 +46,14 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
   const { t } = useTranslation()
 
   return (
-    <Box className='energy'>
+    <Stack className='energy' gap='.8rem'>
       <Typography variant='h6' className='energy__hint'>
         {t`energy:title`}
       </Typography>
       <Box>
-        <Stack spacing={2} direction='row' sx={{ mb: 1 }} alignItems='center'>
+        <Stack spacing={1} direction='row' sx={{ mb: 1 }} alignItems='center'>
           <Battery0Bar
+            fontSize='large'
             sx={{
               color: '#9c392b',
             }}
@@ -63,13 +64,14 @@ const EnergySlider = ({ onChange }: EnergySliderProps) => {
             valueLabelDisplay='auto'
           />
           <BatteryFull
+            fontSize='large'
             sx={{
               color: '#287233',
             }}
           />
         </Stack>
       </Box>
-    </Box>
+    </Stack>
   )
 }
 
