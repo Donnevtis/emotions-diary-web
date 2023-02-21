@@ -1,4 +1,4 @@
-import { CircularProgress, Backdrop, Button } from '@mui/material'
+import { CircularProgress, Backdrop } from '@mui/material'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import React, { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import Emotions from './Emotions/Emotions'
 import EnergySlider from './EnergySlider/EnergySlider'
 import { defaultEnergy, defaultSettings } from '../../resource/defaults'
 import { MainButton, showAlert, close } from '../../telegram'
-import { PATHS, UserState } from '../../types'
+import { UserState } from '../../types'
 import { queryParam } from '../../utils/utils'
 
 dayjs.extend(timezone)
@@ -67,13 +67,6 @@ const MoodPicker = () => {
     setParams({ text: t`webView:sendButton` || 'OK' })
   }, [t])
 
-  const data: UserState = {
-    emotion,
-    energy,
-    timestamp: Date.now(),
-    timezone: dayjs.tz.guess(),
-  }
-
   return (
     <>
       <Backdrop open={loading}>
@@ -82,19 +75,6 @@ const MoodPicker = () => {
 
       <EnergySlider onChange={setEnergy} />
       <Emotions onSelect={setEmotion} selectedEmotion={emotion} />
-      {import.meta.env.DEV && (
-        <Button
-          onClick={async () => {
-            setLoading(true)
-            addState(data)
-              .then(() => navigate(PATHS.history))
-              .catch(() => showAlert(String(t('errors:sorry'))))
-              .finally(() => setLoading(false))
-          }}
-        >
-          SEND
-        </Button>
-      )}
     </>
   )
 }

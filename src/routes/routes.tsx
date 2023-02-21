@@ -25,12 +25,7 @@ export const routes = [
     children: [
       {
         path: PATHS.root,
-        loader: () => getSettings(),
-        element: (
-          <AsyncComponentBackdrop>
-            <MoodPicker />
-          </AsyncComponentBackdrop>
-        ),
+        element: <MoodPicker />,
         errorElement: (
           <AsyncComponentBackdrop>
             <ErrorPage />
