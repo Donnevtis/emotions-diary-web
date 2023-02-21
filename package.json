@@ -1,29 +1,35 @@
 {
   "name": "emotions-diary-webapp",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "postbuild": "surge dist skin.surge.sh",
-    "lint": "eslint"
+    "predeploy": "npm run build",
+    "deploy": "npm run publish",
+    "lint": "eslint --cache src/**/*.tsx src/**/*.ts",
+    "prepare": "husky install",
+    "publish": "aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive dist/ s3://webapp-service",
+    "upgtw": "yc serverless api-gateway update --id d5dejk0dhvj322cfejbn --spec=gateway.yaml"
   },
   "dependencies": {
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
     "@fontsource/roboto": "4.5.8",
     "@mui/icons-material": "5.11.0",
+    "@mui/lab": "5.0.0-alpha.118",
     "@mui/material": "5.11.6",
     "@mui/x-date-pickers": "5.0.16",
     "dayjs": "1.11.7",
+    "file-saver": "2.0.5",
     "i18next": "22.4.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-i18next": "12.1.4"
+    "react-i18next": "12.1.4",
+    "react-router-dom": "6.8.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@types/telegram-web-app": "^6.4.0",
@@ -33,12 +39,17 @@
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "lint-staged": "^13.1.2",
     "typescript": "^4.9.4",
     "vite": "^4.0.0"
   },
   "prettier": {
     "endOfLine": "lf",
     "singleQuote": true,
-    "jsxSingleQuote": true
+    "jsxSingleQuote": true,
+    "semi": false
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache"
   }
 }

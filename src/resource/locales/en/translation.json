@@ -1,7 +1,8 @@
 {
   "settings": {
     "question": "Asking how you're doing?",
-    "hint": "You can change the settings later."
+    "hint": "You can change the settings later.",
+    "addTime": "Add time"
   },
   "energy": {
     "title": "Energy level"
@@ -16,5 +17,32 @@
   },
   "timePicker": {
     "title": "Select time"
+  },
+  "webView": {
+    "sendButton": "Send"
+  },
+  "errors": {
+    "oops": "Oops!",
+    "sorry": "Sorry, an unexpected error has occurred.",
+    "notFound": "Not Found",
+    "errorOccurred": "Error occurred",
+    "tryLater": "Please try again later"
+  },
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel"
+  },
+  "history": {
+    "energy": "Energy",
+    "open": "Open history",
+    "empty": "History is empty"
+  },
+  "report": {
+    "generate": "Generate Report",
+    "fileFormat": "File format",
+    "week": "Week",
+    "month": "Month",
+    "download": "Download",
+    "range": "Range"
   }
 }
