@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import ToggleButton from '@mui/material/ToggleButton'
-import { language_code } from '../../../telegram'
+import i18n from '../../../i18n'
 
 type Columns = {
   label: string
@@ -27,18 +27,20 @@ const Emotionlist = ({
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${language_code === 'ru' ? 2 : 3}, 1fr)`,
+        gridTemplateColumns: `repeat(${
+          i18n.resolvedLanguage === 'ru' ? 2 : 3
+        }, 1fr)`,
         gap: '.5rem',
       }}
     >
       {emotions.map(({ label }) => (
         <ToggleButton
           key={label}
-          fullWidth
           disableRipple
           value={label}
           selected={selected === label}
           onClick={() => onClick(label)}
+          size='small'
         >
           {label}
         </ToggleButton>
