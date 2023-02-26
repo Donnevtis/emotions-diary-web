@@ -4,7 +4,7 @@ import timezone from 'dayjs/plugin/timezone'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { addState, sendDataToBot, putSettings } from '../../api/api'
+import { sendDataToBot, putSettings } from '../../api/api'
 import Emotions from './Emotions/Emotions'
 import EnergySlider from './EnergySlider/EnergySlider'
 import { defaultEnergy, defaultSettings } from '../../resource/defaults'
@@ -47,8 +47,7 @@ const MoodPicker = () => {
 
     const sendDataCallback = async () => {
       setLoading(true)
-      addState(data)
-        .then(() => sendDataToBot(data))
+      sendDataToBot(data)
         .then(() => close())
         .catch(() => showAlert(String(t('errors:sorry'))))
         .finally(() => {

@@ -3,6 +3,8 @@ import { initDataUnsafe, user_id } from '../telegram'
 import { queryParam } from '../utils/utils'
 import i18n from '../i18n'
 
+const language_code = i18n.resolvedLanguage
+
 const { VITE_GATEWAY_URL, VITE_TOKEN } = import.meta.env
 
 const token = queryParam.get('token') || VITE_TOKEN
@@ -34,7 +36,7 @@ export const sendDataToBot = (data: object) =>
     body: JSON.stringify({
       ...data,
       query_id: initDataUnsafe.query_id,
-      language_code: i18n.resolvedLanguage,
+      language_code,
     }),
   })
 
@@ -105,7 +107,7 @@ export const addState = (state: UserState) => {
       'Content-Type': 'application/json',
       Authorization: bearer,
     },
-    body: JSON.stringify(state),
+    body: JSON.stringify({ language_code, state }),
   }).then(responseHandler)
 }
 
