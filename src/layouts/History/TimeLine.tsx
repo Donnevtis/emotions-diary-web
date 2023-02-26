@@ -1,20 +1,17 @@
-import {
-  TimelineItem,
-  TimelineSeparator,
-  TimelineDot,
-  TimelineConnector,
-  TimelineContent,
-  Timeline,
-  timelineItemClasses,
-} from '@mui/lab'
-import {
-  Typography,
-  capitalize,
-  Box,
-  CircularProgress,
+import TimelineItem from '@mui/lab/TimelineItem'
+import TimelineSeparator from '@mui/lab/TimelineSeparator'
+import TimelineDot from '@mui/lab/TimelineDot'
+import TimelineConnector from '@mui/lab/TimelineConnector'
+import TimelineContent from '@mui/lab/TimelineContent'
+import Timeline from '@mui/lab/Timeline'
+import { timelineItemClasses } from '@mui/lab'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import CircularProgress, {
   circularProgressClasses,
-} from '@mui/material'
-import { Bolt } from '@mui/icons-material'
+} from '@mui/material/CircularProgress'
+import Bolt from '@mui/icons-material/Bolt'
+import { capitalize } from '@mui/material/utils'
 import dayjs from 'dayjs'
 import React from 'react'
 import { UserState } from '../../types'

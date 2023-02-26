@@ -1,5 +1,6 @@
 import React from 'react'
-import { CircularProgress, Backdrop } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
+import Backdrop from '@mui/material/Backdrop'
 
 const FallbackBackdrop = () => {
   return (

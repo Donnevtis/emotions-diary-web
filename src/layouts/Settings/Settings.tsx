@@ -1,19 +1,17 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import TimePickerListItem from './TimePickerListItem/TimePickerListItem'
-import {
-  Stack,
-  List,
-  ListItem,
-  ListItemText,
-  Switch,
-  Collapse,
-  Divider,
-  Button,
-  Alert,
-  AlertTitle,
-  Container,
-} from '@mui/material'
-import { Add } from '@mui/icons-material'
+import Stack from '@mui/material/Stack'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import Switch from '@mui/material/Switch'
+import Collapse from '@mui/material/Collapse'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+import Container from '@mui/material/Container'
+import Add from '@mui/icons-material/Add'
 import { useTranslation } from 'react-i18next'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import { defaultSettings } from '../../resource/defaults'

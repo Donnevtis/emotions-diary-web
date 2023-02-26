@@ -1,11 +1,13 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { Slider } from '@mui/material/'
+import Slider from '@mui/material/Slider'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/'
 import { defaultEnergy } from '../../../resource/defaults'
 import { useTranslation } from 'react-i18next'
-import { Stack, styled } from '@mui/material'
-import { Battery0Bar, BatteryFull } from '@mui/icons-material/'
+import Battery0Bar from '@mui/icons-material/Battery0Bar'
+import BatteryFull from '@mui/icons-material/BatteryFull'
 
 type EnergySliderProps = {
   onChange: (energy: number) => void

@@ -1,4 +1,5 @@
-import { CircularProgress, Backdrop } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
+import Backdrop from '@mui/material/Backdrop'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import React, { useEffect, useState } from 'react'
